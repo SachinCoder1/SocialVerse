@@ -1,4 +1,4 @@
-# uChat Project Info
+# Social Verse
 
 ## Design
 
@@ -74,8 +74,8 @@ be packaged separately depending on your operating system and package manager
 Create a `.env` file in the workspace directory containing:
 
 ```bash
-DATABASE_URL=postgres://DATABASE_USER:PASSWORD@localhost/uchat
-TEST_DATABASE_URL=postgres://DATABASE_USER:PASSWORD@localhost/uchat_test
+DATABASE_URL=postgres://DATABASE_USER:PASSWORD@localhost/socialverse
+TEST_DATABASE_URL=postgres://DATABASE_USER:PASSWORD@localhost/socialverse_test
 ```
 
 Substitute these:
@@ -157,7 +157,7 @@ trunk serve --open
 To run the backend server:
 
 ```bash
-cargo run -p uchat_server
+cargo run -p socialverse_server
 ```
 
 ### Build for production
@@ -198,7 +198,7 @@ diesel migration redo
 After creating a new migration, delete the testing database using:
 
 ```bash
-psql -d postgres -c 'DROP DATABASE uchat_test;'
+psql -d postgres -c 'DROP DATABASE socialverse_test;'
 ```
 
 ## `git tag`
