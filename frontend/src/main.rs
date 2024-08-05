@@ -6,8 +6,10 @@
 pub mod util;
 
 pub mod app;
-mod components;
+pub mod components;
 pub mod page;
+pub mod elements;
+
 
 use cfg_if::cfg_if;
 

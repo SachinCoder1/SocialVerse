@@ -1,10 +1,15 @@
 use dioxus::prelude::*;
 
-use crate::{components::button::Button, sync_handler};
+use crate::{
+    components::button::Button,
+    elements::keyed_notification_box::{KeyedNotificationBox, KeyedNotifications},
+    sync_handler,
+};
 
 pub struct PageState {
     username: UseState<String>,
     password: UseState<String>,
+    form_errors: KeyedNotifications,
 }
 
 impl PageState {
@@ -12,7 +17,14 @@ impl PageState {
         Self {
             username: use_state(cx, String::new).clone(),
             password: use_state(cx, String::new).clone(),
+            form_errors: KeyedNotifications::default(),
         }
+    }
+
+    pub fn can_submit(&self) -> bool {
+        !(self.form_errors.has_messages()
+            || self.username.current().is_empty()
+            || self.password.current().is_empty())
     }
 }
 
@@ -71,11 +83,31 @@ pub fn Register(cx: Scope) -> Element {
     let page_state = use_ref(cx, || page_state);
 
     let username_oninput = sync_handler!([page_state], move |e: FormEvent| {
+        let username = socialverse_domain::Username::new(&e.value);
+        match username {
+            Ok(val) => page_state.with_mut(|state| state.form_errors.remove("bad-username")),
+            Err(e) => {
+                let error_message = format!("username: {}", e.to_string());
+                page_state.with_mut(|state| state.form_errors.set("bad-username", error_message))
+            }
+        }
         page_state.with_mut(|state| state.username.set(e.value.clone()))
     });
     let password_oninput = sync_handler!([page_state], move |e: FormEvent| {
+        let password = socialverse_domain::Password::new(&e.value);
+        match password {
+            Ok(val) => page_state.with_mut(|state| state.form_errors.remove("bad-password")),
+            Err(e) => {
+                let error_message = format!("password: {}", e.to_string());
+
+                page_state.with_mut(|state| state.form_errors.set("bad-password", error_message))
+            }
+        }
         page_state.with_mut(|state| state.password.set(e.value.clone()))
     });
+    // let password_oninput = sync_handler!([page_state], move |e: FormEvent| {
+    //     page_state.with_mut(|state| state.password.set(e.value.clone()))
+    // });
 
     cx.render(rsx! {
         form {
@@ -92,8 +124,14 @@ pub fn Register(cx: Scope) -> Element {
                 oninput: password_oninput
             },
 
+            KeyedNotificationBox {
+                legend: "Form Errors",
+                notifications: page_state.clone().with(|state| state.form_errors.clone()),
+            },
+
             Button {
                 button_type: "submit",
+                disabled: !page_state.with(|state| state.can_submit()),
                 "Signup"
             }
     }

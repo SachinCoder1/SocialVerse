@@ -1129,6 +1129,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "socialverse_domain",
  "thiserror",
  "uchat_cookie",
  "url",
