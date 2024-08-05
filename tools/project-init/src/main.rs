@@ -138,7 +138,9 @@ fn main() {
             name: exe::TRUNK,
             locate: Box::new(|| exists(exe::TRUNK)),
             install: vec![
-                Install::Cmd(command!("cargo install trunk --git https://github.com/trunk-rs/trunk.git --branch main")),
+                Install::Cmd(command!(
+                    "cargo install trunk --git https://github.com/trunk-rs/trunk.git --branch main"
+                )),
                 // Needed for M1 Macs
                 #[cfg(target_os = "macos")]
                 Install::Cmd(command!("cargo install --locked wasm-bindgen-cli")),
