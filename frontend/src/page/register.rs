@@ -34,6 +34,33 @@ pub fn UsernameInput<'a>(
                 name: "username",
                 class: "input",
                 placeholder: "e.g. johndoe",
+                value:   "{state.current()}" ,
+                oninput: move |e| oninput.call(e)
+            }
+        }
+    })
+}
+
+#[inline_props]
+pub fn PasswordInput<'a>(
+    cx: Scope<'a>,
+    state: UseState<String>,
+    oninput: EventHandler<'a, FormEvent>,
+) -> Element<'a> {
+    cx.render(rsx! {
+        div {
+            class: "flex flex-col",
+            label {
+                r#for: "password",
+                "password"
+            },
+            input {
+                id: "password",
+                name: "password",
+                r#type: "password",
+                class: "input",
+                placeholder: "enter password",
+                value:   "{state.current()}" ,
                 oninput: move |e| oninput.call(e)
             }
         }
@@ -46,6 +73,9 @@ pub fn Register(cx: Scope) -> Element {
     let username_oninput = sync_handler!([page_state], move |e: FormEvent| {
         page_state.with_mut(|state| state.username.set(e.value.clone()))
     });
+    let password_oninput = sync_handler!([page_state], move |e: FormEvent| {
+        page_state.with_mut(|state| state.password.set(e.value.clone()))
+    });
 
     cx.render(rsx! {
         form {
@@ -56,6 +86,10 @@ pub fn Register(cx: Scope) -> Element {
             UsernameInput {
                 state: page_state.with(|state| state.username.clone()),
                 oninput: username_oninput
+            },
+            PasswordInput {
+                state: page_state.with(|state| state.password.clone()),
+                oninput: password_oninput
             },
 
             Button {
