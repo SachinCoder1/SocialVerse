@@ -2,8 +2,8 @@ use axum::{async_trait, Json};
 use chrono::{Utc};
 use hyper::StatusCode;
 
-use uchat_domain::{ids::*, Username};
-use uchat_endpoint::{
+use socialverse_domain::{ids::*, Username};
+use socialverse_endpoint::{
     app_url::{self, user_content},
     post::{
         endpoint::{
@@ -15,7 +15,7 @@ use uchat_endpoint::{
     },
     RequestFailed,
 };
-use uchat_query::{post::Post, AsyncConnection};
+use socialverse_query::{post::Post, AsyncConnection};
 
 use crate::{
     error::{ApiError, ApiResult},
@@ -30,9 +30,9 @@ pub fn to_public(
     post: Post,
     session: Option<&UserSession>,
 ) -> ApiResult<PublicPost> {
-    use uchat_endpoint::post::types::Content;
-    use uchat_query::post as query_post;
-    use uchat_query::user as query_user;
+    use socialverse_endpoint::post::types::Content;
+    use socialverse_query::post as query_post;
+    use socialverse_query::user as query_user;
 
     if let Ok(mut content) = serde_json::from_value(post.content.0) {
         match content {
@@ -131,7 +131,7 @@ impl AuthorizedApiRequest for NewPost {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_endpoint::post::types::Content;
+        use socialverse_endpoint::post::types::Content;
 
         let mut content = self.content;
         if let Content::Image(ref mut img) = content {
@@ -144,7 +144,7 @@ impl AuthorizedApiRequest for NewPost {
 
         let post = Post::new(session.user_id, content, self.options)?;
 
-        let post_id = uchat_query::post::new(&mut conn, post)?;
+        let post_id = socialverse_query::post::new(&mut conn, post)?;
 
         Ok((StatusCode::OK, Json(NewPostOk { post_id })))
     }
@@ -159,7 +159,7 @@ impl AuthorizedApiRequest for TrendingPosts {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_query::post as query_post;
+        use socialverse_query::post as query_post;
 
         let mut posts = vec![];
 
@@ -188,10 +188,10 @@ impl AuthorizedApiRequest for Bookmark {
     ) -> ApiResult<Self::Response> {
         match self.action {
             BookmarkAction::Add => {
-                uchat_query::post::bookmark(&mut conn, session.user_id, self.post_id)?;
+                socialverse_query::post::bookmark(&mut conn, session.user_id, self.post_id)?;
             }
             BookmarkAction::Remove => {
-                uchat_query::post::delete_bookmark(&mut conn, session.user_id, self.post_id)?;
+                socialverse_query::post::delete_bookmark(&mut conn, session.user_id, self.post_id)?;
             }
         }
 
@@ -213,9 +213,9 @@ impl AuthorizedApiRequest for React {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_endpoint::post::types::LikeStatus;
+        use socialverse_endpoint::post::types::LikeStatus;
 
-        let reaction = uchat_query::post::Reaction {
+        let reaction = socialverse_query::post::Reaction {
             post_id: self.post_id,
             user_id: session.user_id,
             reaction: None,
@@ -227,9 +227,9 @@ impl AuthorizedApiRequest for React {
             created_at: Utc::now(),
         };
 
-        uchat_query::post::react(&mut conn, reaction)?;
+        socialverse_query::post::react(&mut conn, reaction)?;
 
-        let aggregate_reactions = uchat_query::post::aggregate_reactions(&mut conn, self.post_id)?;
+        let aggregate_reactions = socialverse_query::post::aggregate_reactions(&mut conn, self.post_id)?;
 
         Ok((
             StatusCode::OK,
@@ -253,10 +253,10 @@ impl AuthorizedApiRequest for Boost {
     ) -> ApiResult<Self::Response> {
         match self.action {
             BoostAction::Add => {
-                uchat_query::post::boost(&mut conn, session.user_id, self.post_id, Utc::now())?;
+                socialverse_query::post::boost(&mut conn, session.user_id, self.post_id, Utc::now())?;
             }
             BoostAction::Remove => {
-                uchat_query::post::delete_boost(&mut conn, session.user_id, self.post_id)?;
+                socialverse_query::post::delete_boost(&mut conn, session.user_id, self.post_id)?;
             }
         }
 
@@ -279,7 +279,7 @@ impl AuthorizedApiRequest for Vote {
         _state: AppState,
     ) -> ApiResult<Self::Response> {
         let cast =
-            uchat_query::post::vote(&mut conn, session.user_id, self.post_id, self.choice_id)?;
+            socialverse_query::post::vote(&mut conn, session.user_id, self.post_id, self.choice_id)?;
 
         Ok((StatusCode::OK, Json(VoteOk { cast })))
     }
@@ -294,7 +294,7 @@ impl AuthorizedApiRequest for HomePosts {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_query::post as query_post;
+        use socialverse_query::post as query_post;
 
         let mut posts = vec![];
 
@@ -321,7 +321,7 @@ impl AuthorizedApiRequest for LikedPosts {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_query::post as query_post;
+        use socialverse_query::post as query_post;
 
         let mut posts = vec![];
 
@@ -348,7 +348,7 @@ impl AuthorizedApiRequest for BookmarkedPosts {
         session: UserSession,
         _state: AppState,
     ) -> ApiResult<Self::Response> {
-        use uchat_query::post as query_post;
+        use socialverse_query::post as query_post;
 
         let mut posts = vec![];
 

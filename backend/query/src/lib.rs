@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate diesel_derive_newtype;
-
 pub mod schema;
-pub mod user;
-pub mod session;
 
 #[cfg(test)]
 pub mod test_db;
@@ -16,4 +13,6 @@ pub use error::QueryError;
 pub mod util;
 pub use util::{AsyncConnection, AsyncConnectionPool, OwnedAsyncConnection};
 
-use socialverse_domain::ids::*;
+pub mod post;
+pub mod session;
+pub mod user;

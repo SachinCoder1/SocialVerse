@@ -18,8 +18,8 @@ use crate::{
     AppState,
 };
 
-// pub mod post;
-// pub mod user;
+pub mod post;
+pub mod user;
 
 const USER_CONTENT_DIR: &str = "usercontent";
 
