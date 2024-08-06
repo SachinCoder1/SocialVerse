@@ -3,6 +3,7 @@ extern crate diesel_derive_newtype;
 
 pub mod schema;
 pub mod user;
+pub mod session;
 
 #[cfg(test)]
 pub mod test_db;

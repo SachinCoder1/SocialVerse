@@ -4,6 +4,8 @@ use socialverse_query::{AsyncConnection, AsyncConnectionPool, QueryError};
 pub mod logging;
 pub mod router;
 pub mod error;
+pub mod extractor;
+pub mod handler;
 
 #[derive(Clone)]
 pub struct AppState {

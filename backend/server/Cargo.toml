@@ -38,6 +38,7 @@ url = { version = "2.3.1", features = ["serde"] }
 uuid = { version = "1.3.0", features = ["v4", "serde"] }
 
 socialverse_cookie = { path = "../../shared/cookie" }
+socialverse_domain = { path = "../../shared/domain" }
+socialverse_endpoint = { path = "../../shared/endpoint" }
 socialverse_crypto = { path = "../crypto" }
 socialverse_query = { path = "../query" }
-socialverse_endpoint = { path = "../../shared/endpoint" }

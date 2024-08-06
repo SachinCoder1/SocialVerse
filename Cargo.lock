@@ -2913,6 +2913,7 @@ dependencies = [
  "serde_json",
  "socialverse_cookie",
  "socialverse_crypto",
+ "socialverse_domain",
  "socialverse_endpoint",
  "socialverse_query",
  "thiserror",
