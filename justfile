@@ -33,7 +33,7 @@ serve-frontend *ARGS:
 
 # run API server
 serve-api *ARGS:
-    cargo run -p uchat_server {{ ARGS }}
+    cargo run -p socialverse_server {{ ARGS }}
 
 # set up project dependencies
 init:
@@ -46,12 +46,12 @@ db-migrate:
     diesel migration run
     # test migration
     diesel migration redo
-    psql -d postgres -c 'DROP DATABASE uchat_test;'
+    psql -d postgres -c 'DROP DATABASE socialverse_test;'
 
 # reset the database
 db-reset:
     diesel database reset
-    psql -d postgres -c 'DROP DATABASE uchat_test;' || true
+    psql -d postgres -c 'DROP DATABASE socialverse_test;' || true
 
 # create a new database migration
 db-new-migration NAME:

@@ -1129,9 +1129,9 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "socialverse_cookie",
  "socialverse_domain",
  "thiserror",
- "uchat_cookie",
  "url",
  "wasm-bindgen",
  "web-sys",
@@ -2828,6 +2828,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a507befe795404456341dfab10cef66ead4c041f62b8b11bbb92bffe5d0953e0"
 
 [[package]]
+name = "socialverse_cookie"
+version = "0.1.0"
+
+[[package]]
+name = "socialverse_crypto"
+version = "0.1.0"
+dependencies = [
+ "argon2",
+ "base64 0.21.0",
+ "password-hash",
+ "rand",
+ "rand_core",
+ "rmp-serde",
+ "rsa",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
 name = "socialverse_domain"
 version = "0.1.0"
 dependencies = [
@@ -2838,6 +2857,58 @@ dependencies = [
  "regex",
  "serde",
  "thiserror",
+ "uuid",
+]
+
+[[package]]
+name = "socialverse_query"
+version = "0.1.0"
+dependencies = [
+ "bb8",
+ "bb8-diesel",
+ "chrono",
+ "diesel",
+ "diesel-derive-newtype",
+ "diesel_migrations",
+ "dotenvy",
+ "password-hash",
+ "r2d2",
+ "serde",
+ "serde_json",
+ "socialverse_crypto",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "socialverse_server"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "base64 0.21.0",
+ "chrono",
+ "clap",
+ "color-eyre",
+ "dotenvy",
+ "hyper",
+ "rand",
+ "rand_core",
+ "serde",
+ "serde_json",
+ "socialverse_cookie",
+ "socialverse_crypto",
+ "socialverse_query",
+ "thiserror",
+ "tokio",
+ "tower",
+ "tower-http",
+ "tracing",
+ "tracing-error",
+ "tracing-subscriber",
+ "url",
  "uuid",
 ]
 
@@ -3253,77 +3324,6 @@ name = "typenum"
 version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "497961ef93d974e23eb6f433eb5fe1b7930b659f06d12dec6fc44a8f554c0bba"
-
-[[package]]
-name = "uchat_cookie"
-version = "0.1.0"
-
-[[package]]
-name = "uchat_crypto"
-version = "0.1.0"
-dependencies = [
- "argon2",
- "base64 0.21.0",
- "password-hash",
- "rand",
- "rand_core",
- "rmp-serde",
- "rsa",
- "thiserror",
- "tracing",
-]
-
-[[package]]
-name = "uchat_query"
-version = "0.1.0"
-dependencies = [
- "bb8",
- "bb8-diesel",
- "chrono",
- "diesel",
- "diesel-derive-newtype",
- "diesel_migrations",
- "dotenvy",
- "password-hash",
- "r2d2",
- "serde",
- "serde_json",
- "thiserror",
- "tokio",
- "tracing",
- "uchat_crypto",
- "url",
- "uuid",
-]
-
-[[package]]
-name = "uchat_server"
-version = "0.1.0"
-dependencies = [
- "axum",
- "base64 0.21.0",
- "chrono",
- "clap",
- "color-eyre",
- "dotenvy",
- "hyper",
- "rand",
- "rand_core",
- "serde",
- "serde_json",
- "thiserror",
- "tokio",
- "tower",
- "tower-http",
- "tracing",
- "tracing-error",
- "tracing-subscriber",
- "uchat_cookie",
- "uchat_crypto",
- "uchat_query",
- "url",
- "uuid",
-]
 
 [[package]]
 name = "unicase"

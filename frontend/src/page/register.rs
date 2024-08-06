@@ -105,9 +105,6 @@ pub fn Register(cx: Scope) -> Element {
         }
         page_state.with_mut(|state| state.password.set(e.value.clone()))
     });
-    // let password_oninput = sync_handler!([page_state], move |e: FormEvent| {
-    //     page_state.with_mut(|state| state.password.set(e.value.clone()))
-    // });
 
     cx.render(rsx! {
         form {

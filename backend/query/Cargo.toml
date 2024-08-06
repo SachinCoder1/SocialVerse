@@ -1,5 +1,5 @@
 [package]
-name = "uchat_query"
+name = "socialverse_query"
 version = "0.1.0"
 edition = "2021"
 
@@ -35,4 +35,4 @@ default-features = false
 
 [dev-dependencies]
 dotenvy = "0.15.7"
-uchat_crypto = { path = "../crypto" }
+socialverse_crypto = { path = "../crypto" }

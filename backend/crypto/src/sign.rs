@@ -27,7 +27,7 @@ where
     Ok(RsaPrivateKey::new(rng, bits)?)
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct EncodedPrivateKey(String);
 
 impl EncodedPrivateKey {

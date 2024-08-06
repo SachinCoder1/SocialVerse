@@ -42,7 +42,7 @@ pub fn setup(verbosity: Verbosity) {
             .with(tracing_subscriber::fmt::layer())
             .with(LevelFilter::from(verbosity))
             .with(tracing_subscriber::filter::filter_fn(|meta| {
-                meta.target().starts_with("uchat")
+                meta.target().starts_with("socialverse")
             }))
             .with(ErrorLayer::default())
             .init();
