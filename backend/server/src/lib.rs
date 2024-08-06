@@ -3,6 +3,9 @@ use socialverse_query::{AsyncConnection, AsyncConnectionPool, QueryError};
 
 pub mod logging;
 pub mod router;
+pub mod error;
+
+#[derive(Clone)]
 pub struct AppState {
     pub db_pool: AsyncConnectionPool,
     pub signing_keys: socialverse_crypto::sign::Keys,
